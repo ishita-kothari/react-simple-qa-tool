@@ -1,0 +1,45 @@
+.logo {
+  height: 100px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.header-title {
+  margin-left: 30px;
+}
+
+.app-body {
+  padding: 20px;
+}
+
+.red {
+  color: #eb7679;
+}
+
+.blue {
+  color: #4ca6dc;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.box-shadow {
+  box-shadow: 0 5px 5px 0 rgb(0 0 0 / 20%);
+}
+
+p.sub-header {
+  margin: 0;
+  padding: 20px;
+}
+
+.flexLayout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
