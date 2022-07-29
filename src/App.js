@@ -10,7 +10,7 @@ function App() {
           alt="logo"
           className="logo"
         />
-        <h2 className="header-title">Questioner</h2>
+        <h2 className="header-title">Questionnaire</h2>
       </div>
       <p className="red text-align-center sub-header">
         Here you can find one question for reference. Feel free to create your
