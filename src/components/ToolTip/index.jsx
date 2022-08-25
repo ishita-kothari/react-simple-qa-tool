@@ -4,9 +4,9 @@ import "./index.css";
 
 const TooltipContainer = ({ children, message, position = "left" }) => {
   return (
-    <div class="tooltip ">
+    <div className="tooltip ">
       {children || <InfoOutlined color="primary" size={"small"} />}
-      <span class={`tooltiptext ${position} box-shadow`}>{message}</span>
+      <span className={`tooltiptext ${position} box-shadow`}>{message}</span>
     </div>
   );
 };

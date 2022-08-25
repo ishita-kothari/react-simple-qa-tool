@@ -1,7 +1,8 @@
-import { Button, TextField } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { add, addAsync } from "../../reducer/qaSlice";
+import TooltipContainer from "../ToolTip";
 
 const CreationForm = ({
   isEditing,
@@ -9,6 +10,7 @@ const CreationForm = ({
   confirmEdit,
   isAsync,
   onCancel,
+  setIsChecked,
 }) => {
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
@@ -21,17 +23,21 @@ const CreationForm = ({
     }
   }, [isEditing, editFormValue]);
 
-  const handleCreateForm = () => {
-    if (isAsync) {
+  const handleCreateForm = (event) => {
+    console.log("is called");
+    if (isEditing) {
+      confirmEdit(formData);
+    } else if (isAsync) {
       dispatch(addAsync(formData));
     } else {
       dispatch(add(formData));
     }
 
     setFormData({});
+    event.preventDefault();
   };
   return (
-    <div>
+    <form onSubmit={handleCreateForm} data-testid="form">
       <TextField
         required
         label="Question"
@@ -56,33 +62,39 @@ const CreationForm = ({
         defaultValue={isEditing && editFormValue.answer}
         inputProps={{ "data-testid": "answer-input" }}
       />
-      {isEditing ? (
-        <>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => confirmEdit(formData)}
-            data-testid="edit-button"
-            disabled={!formData.question || !formData.answer}
-          >
-            Edit Question
-          </Button>
-          <Button variant="text" color="primary" onClick={onCancel}>
-            Cancel
-          </Button>
-        </>
-      ) : (
-        <Button
-          variant="contained"
-          color="success"
-          onClick={handleCreateForm}
-          disabled={!formData.question || !formData.answer}
-          data-testid="create-button"
-        >
-          Create Question
+
+      <Button
+        variant="contained"
+        color="success"
+        type="submit"
+        disabled={!formData.question?.trim() || !formData.answer?.trim()}
+        data-testid="create-button"
+      >
+        {isEditing ? "Edit Question" : "Create Question"}
+      </Button>
+      {isEditing && (
+        <Button variant="text" color="primary" onClick={onCancel}>
+          Cancel
         </Button>
       )}
-    </div>
+      {!isEditing && (
+        <div className="flexLayout">
+          <FormControlLabel
+            control={
+              <Checkbox
+                onChange={(e) => setIsChecked(e.target.checked)}
+                data-testid="delay-checkbox"
+                role="delay-checkbox"
+              />
+            }
+            label="Delay to add question"
+          />
+          <TooltipContainer
+            message={"Checking the checkbox will add your question after 5s."}
+          />
+        </div>
+      )}
+    </form>
   );
 };
 

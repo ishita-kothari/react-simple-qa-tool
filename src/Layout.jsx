@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
-import AccordianComponent from "./components/Accordian";
-import CreationForm from "./components/Form";
+import AccordianComponent from "./components/Accordian/Accordian";
+import CreationForm from "./components/Form/Form";
 import { useDispatch, useSelector } from "react-redux";
 import ActionButtons from "./components/ActionButtons";
 import {
@@ -83,23 +83,8 @@ const Layout = () => {
           confirmEdit={confirmEdit}
           isAsync={isChecked}
           onCancel={() => setIsEditing(false)}
+          setIsChecked={setEditFormValue}
         />
-        {!isEditing && (
-          <div className="flexLayout">
-            <FormControlLabel
-              control={
-                <Checkbox
-                  onChange={(e) => setIsChecked(e.target.checked)}
-                  data-testid="delay-checkbox"
-                />
-              }
-              label="Delay to add question"
-            />
-            <TooltipContainer
-              message={"Checking the checkbox will add your question after 5s."}
-            />
-          </div>
-        )}
       </Grid>
       <Grid item xs={12} md={8}>
         <div className="flexLayout">
@@ -116,7 +101,11 @@ const Layout = () => {
         {list.map((item) => (
           <Grid container spacing={2}>
             <Grid item md={10} xs={9}>
-              <AccordianComponent title={item.question} message={item.answer} />
+              <AccordianComponent
+                title={item.question}
+                message={item.answer}
+                key={item.id}
+              />
             </Grid>
             <Grid item md={2} xs={3}>
               <ActionButtons

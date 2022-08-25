@@ -1,9 +1,9 @@
 import "@testing-library/jest-dom/extend-expect";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { Provider } from "react-redux";
-import CreationForm from "./components/Form";
-import store from "./reducer/store";
-import questionAnswerReducer, { editQuestion } from "./reducer/qaSlice";
+import CreationForm from "../Form";
+import store from "../../../reducer/store";
+import questionAnswerReducer, { editQuestion } from "../../../reducer/qaSlice";
 describe("Create Question Form", () => {
   it("renders default state", () => {
     render(
@@ -15,10 +15,14 @@ describe("Create Question Form", () => {
     const questionInput = screen.getByTestId("question-input");
     const answerInput = screen.getByTestId("answer-input");
     const createButton = screen.getByTestId("create-button");
+    const delayCheckbox = screen.getByTestId("delay-checkbox");
+    const delayInput = within(delayCheckbox).getByRole("checkbox");
 
     expect(questionInput.value).toBe("");
     expect(answerInput.value).toBe("");
-    expect(createButton).toHaveClass("Mui-disabled");
+    expect(createButton).toHaveAttribute("disabled");
+    expect(delayCheckbox).toBeInTheDocument();
+    expect(delayInput).toHaveProperty("checked", false);
   });
 
   it("keeps the create question button disabled when only one field provided", () => {
@@ -34,7 +38,7 @@ describe("Create Question Form", () => {
     fireEvent.change(questionInput, {
       target: { value: "How are you today?" },
     });
-    expect(createButton).toHaveClass("Mui-disabled");
+    expect(createButton).toHaveAttribute("disabled");
   });
 
   it("enable create question button when both fields have value", () => {
@@ -54,7 +58,7 @@ describe("Create Question Form", () => {
     fireEvent.change(answerInput, {
       target: { value: "I am fine" },
     });
-    expect(createButton).not.toHaveClass("Mui-disabled");
+    expect(createButton).not.toHaveAttribute("disabled");
   });
 
   it("check if the form is edit form", () => {
@@ -71,7 +75,7 @@ describe("Create Question Form", () => {
       </Provider>
     );
 
-    const editButton = screen.getByTestId("edit-button");
+    const editButton = screen.getByTestId("create-button");
     const questionInput = screen.getByTestId("question-input");
     const answerInput = screen.getByTestId("answer-input");
 
@@ -110,7 +114,7 @@ describe("Create Question Form", () => {
     };
     const questionInput = screen.getByTestId("question-input");
     const answerInput = screen.getByTestId("answer-input");
-    const editButton = screen.getByTestId("edit-button");
+    const editButton = screen.getByTestId("create-button");
 
     fireEvent.change(questionInput, {
       target: { value: "How have you been?" },

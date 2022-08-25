@@ -7,11 +7,19 @@ import Typography from "@mui/material/Typography";
 const AccordianComponent = ({ title, message }) => {
   return (
     <Accordion TransitionProps={{ unmountOnExit: true }} sx={{ mb: 2 }}>
-      <AccordionSummary aria-controls="panel1a-content" id="panel1a-header">
-        <Typography variant="h5">Q) {title} ?</Typography>
+      <AccordionSummary
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+        data-testid="accordian-header-wrapper"
+      >
+        <Typography variant="h5" data-testId="accordian-header">
+          Q) {title} ?
+        </Typography>
       </AccordionSummary>
-      <AccordionDetails>
-        <Typography className="blue">A) {message}</Typography>
+      <AccordionDetails data-testid="accordian-body-wrapper">
+        <Typography className="blue" data-testId="accordian-body">
+          A) {message}
+        </Typography>
       </AccordionDetails>
     </Accordion>
   );

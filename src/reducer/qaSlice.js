@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const sortList = (list) => {
-  return list.sort((a, b) => (a.question > b.question ? 1 : -1));
+  return list.sort((a, b) => {
+    const caseSensitiveA = a.question.toLowerCase();
+    const caseSensitiveB = b.question.toLowerCase();
+    return caseSensitiveA > caseSensitiveB ? 1 : -1;
+  });
 };
 export const qaSlice = createSlice({
   name: "quesans",
